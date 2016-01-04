@@ -1,0 +1,7 @@
+.git
+
+server/node_modules
+server/config/*.json
+
+client/node_modules
+client/assets/libs/bower_components
