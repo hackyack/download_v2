@@ -53,6 +53,10 @@ app.get('/api/moviedb/movie/:id', middleware.authenticateUser, API.movieDB.getMo
 
 app.get('/api/moviedb/search/tv', middleware.authenticateUser, API.movieDB.searchTv);
 app.get('/api/moviedb/tv/:id', middleware.authenticateUser, API.movieDB.getTvInfo);
+app.get('/api/moviedb/tv/:id/season/:season_number', middleware.authenticateUser, API.movieDB.getTvSeasonInfo);
+
+app.get('/api/moviedb/tv/:id/seasons', middleware.authenticateUser, API.movieDB.getSeasons);
+app.get('/api/moviedb/tv/:id/season/:season_number/episodes', middleware.authenticateUser, API.movieDB.getEpisodes);
 
 app.all('/*', function(req, res) {
 	res.sendFile(path.resolve(__dirname + '/../client/index.html'));

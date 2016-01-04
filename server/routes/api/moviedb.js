@@ -90,35 +90,23 @@ exports.searchTv = function (req, res) {
             json: true
         });
     }).then(function (response) {
-        if (response) {
-            var movies = [];
-            for (var i in response.results) {
-                var result = response.results[i];
-                for (var i in response.results) {
-                    var result = response.results[i];
-                    var tv = {
-                        id: result.id,
-                        name: result.original_name,
-                        image: result.poster_path
-                    };
-                    tvs.push(tv);
-                }
-                if (tvs.length == 5) {
-                    break;
-                }
-                tvs.push(tv);
+        var tvs = [];
+        for (var i in response.results) {
+            var result = response.results[i];
+            var tv = {
+                id: result.id,
+                name: result.original_name,
+                image: result.poster_path
+            };
+            if (tvs.length == 5) {
+                break;
             }
-            res.status(200).json({
-                success: true,
-                tvs: tvs
-            });
+            tvs.push(tv);
         }
-        else {
-            res.status(200).json({
-                success: false,
-                message: "No valid response from MovieDB"
-            });
-        }
+        res.status(200).json({
+            success: true,
+            tvs: tvs
+        });
     }).catch(function (error) {
          res.status(200).json({
             success: false,
@@ -152,71 +140,100 @@ exports.getTvInfo = function (req, res) {
     });
 };
 
-/*
 exports.getTvSeasonInfo = function (req, res) {
-    var mdb = MovieDB(config.get('MovieDB.api.key'));
-
-    mdb.tvSeasonInfo({id: req.query.id, season_number: req.query.season_number, language: "en"}, function(error, response){
-        res.contentType('json');
-        res.send(
-            response
-        );
+    
+    Accounts.authMovieDB(req).then(function (token) {
+        return request({
+            method: 'GET',
+            uri: 'https://api.themoviedb.org/3/tv/' + req.params.id + '/season/' + req.params.season_number,
+            qs: {
+                api_key: token,
+                language: "fr"
+            },
+            json: true
+        });
+    }).then(function (info) {
+        res.status(200).json({
+            success: true,
+            info: info
+        });
+    }).catch(function (error) {
+        res.status(200).json({
+            success: false,
+            message: error
+        });
     });
 };
 
 exports.getSeasons = function (req, res) {
-    var mdb = MovieDB(config.get('MovieDB.api.key'));
 
-    mdb.tvInfo({id: req.query.id, language: "en"}, function(error, response) {
-        res.contentType('json');
-        if (response) {
-            var seasons = [];
-            for (var i in response.seasons) {
-                var result = response.seasons[i];
-                var season = {
-                    season_number: result.season_number,
-                    episode_count: result.episode_count,
-                    air_date: result.air_date
-                };
-                seasons.push(season);
-            }
-            res.send(
-                {seasons: seasons}
-            );
+    Accounts.authMovieDB(req).then(function (token) {
+        return request({
+            method: 'GET',
+            uri: 'https://api.themoviedb.org/3/tv/' + req.params.id,
+            qs: {
+                api_key: token,
+                language: "fr"
+            },
+            json: true
+        });
+    }).then(function (response) {
+        console.log(response);
+        var seasons = [];
+        for (var i in response.seasons) {
+            var result = response.seasons[i];
+            var season = {
+                season_number: result.season_number,
+                episode_count: result.episode_count,
+                air_date: result.air_date,
+                poster_path: result.poster_path
+            };
+            seasons.push(season);
         }
-        else {
-            res.send(
-                {seasons: []}
-            );
-        }
+        res.status(200).json({
+            success: true,
+            seasons: seasons
+        });
+    }).catch(function (error) {
+        res.status(200).json({
+            success: false,
+            message: error
+        });
     });
 };
 
 exports.getEpisodes = function (req, res) {
-    var mdb = MovieDB(config.get('MovieDB.api.key'));
-
-    mdb.tvSeasonInfo({id: req.query.id, season_number: req.query.season_number, language: "en"}, function(error, response) {
-    res.contentType('json');
-        if (response) {
-            var episodes = [];
-            for (var i in response.episodes) {
-                var result = response.episodes[i];
-                var episode = {
-                    episode_number: result.episode_number,
-                    air_date: result.air_date,
-                    name: result.name
-                };
-                episodes.push(episode);
-            }
-            res.send(
-                {episodes: episodes}
-            );
+    
+    Accounts.authMovieDB(req).then(function (token) {
+        return request({
+            method: 'GET',
+            uri: 'https://api.themoviedb.org/3/tv/' + req.params.id + '/season/' + req.params.season_number,
+            qs: {
+                api_key: token,
+                language: "fr"
+            },
+            json: true
+        });
+    }).then(function (response) {
+        var episodes = [];
+        for (var i in response.episodes) {
+            var result = response.episodes[i];
+            var episode = {
+                episode_number: result.episode_number,
+                air_date: result.air_date,
+                name: result.name
+            };
+            episodes.push(episode);
         }
-        else {
-            res.send(
-                {episodes: []}
-            );
-        }
+        res.status(200).json({
+            success: true,
+            episodes: episodes
+        });
+    }).catch(function (error) {
+        res.status(200).json({
+            success: false,
+            message: error
+        });
     });
 };
 
@@ -229,4 +246,4 @@ function authMovieDB(req) {
             reject("No MovieDB account configured.");
         }
     });
-}*/
+}

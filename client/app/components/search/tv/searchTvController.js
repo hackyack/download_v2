@@ -9,42 +9,20 @@ angular.module('app.controllers')
 	self.selectedItemInfo = undefined;
 	self.selectItem = undefined;
 
-	self.searchTorrent = function() {
-		this.torrentResult = undefined;
-		this.torrentResult = new ngTableParams(
-			{
-			    page: 1,
-			    count: 10
-			}, {
-			    getData: function($defer, params) {
-			    	$http({
-						method: 'GET',
-						url: '/api/torrents/' + self.searchTerm,
-						params: {
-							limit: params.count(),
-							offset: (params.page() - 1) * params.count()
-						}
-					}).then(function(response) {
-						var results = response.data.results;
-						$defer.resolve(results.torrents);
-						params.total(results.total); // recal. page nav controls
-					});
-			    }
-			}
-		);
-	};
+	self.seasons = [];
+	self.episodes = [];
 
-    self.getMovies = function(val) {
+    self.getTvs = function(val) {
     	self.selectItemInfo = undefined;
         return $http({
 			method: 'GET',
-			url: '/api/moviedb/search/movie',
+			url: '/api/moviedb/search/tv',
 			params: {
 				term: val
 			}
 		}).then(function (response) {
 			if (response.data.success) {
-				return response.data.movies.map(function(item){
+				return response.data.tvs.map(function(item){
 	                return item;
 	            });
 			}
@@ -52,14 +30,34 @@ angular.module('app.controllers')
     };
 
     self.selectItem = function(item, model, label) {
-    	return $http({
+    	self.seasons = [];
+    	self.episodes = [];
+    	$http({
 			method: 'GET',
-			url: '/api/moviedb/movie/' + model.id
+			url: '/api/moviedb/tv/' + model.id
 		}).then(function (response) {
 			if (response.data.success) {
 				self.selectedItemInfo = response.data.info;
 			}
-			console.log(self.selectedItemInfo);
+			$http({
+				method: 'GET',
+				url: '/api/moviedb/tv/' + model.id + '/seasons'
+			}).then(function (response) {
+				if (response.data.success) {
+					self.seasons = response.data.seasons;
+				}
+			});
+		});
+    };
+
+    self.selectSeason = function(season_number) {
+		$http({
+			method: 'GET',
+			url: '/api/moviedb/tv/' + self.selectedItemInfo.id + '/season/' + season_number + "/episodes"
+		}).then(function (response) {
+			if (response.data.success) {
+				self.episodes = response.data.episodes;
+			}
 		});
     };
 
