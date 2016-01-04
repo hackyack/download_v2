@@ -1,0 +1,44 @@
+<div class="sidebar-inner c-overflow">    
+    <div class="profile-menu">
+        <a href="" toggle-submenu>
+            <div class="profile-pic">
+                <img src="assets/img/profile-pics/1.jpg" alt="">
+            </div>
+
+            <div class="profile-info">
+                Malinda Hollaway
+
+                <i class="zmdi zmdi-caret-down"></i>
+            </div>
+        </a>
+
+        <ul class="main-menu">
+            <li>
+                <a href=""><i class="zmdi zmdi-account"></i> View Profile</a>
+            </li>
+            <li>
+                <a href=""><i class="zmdi zmdi-input-antenna"></i> Privacy Settings</a>
+            </li>
+            <li data-ui-sref-active="active">
+                <a data-ui-sref="main.settings" data-ng-click="app.sidebarStat($event)"><i class="zmdi zmdi-settings"></i> Settings</a>
+            </li>
+            <li>
+                <a href="" ng-click="sidebar.logout()"><i class="zmdi zmdi-time-restore"></i> Logout</a>
+            </li>
+        </ul>
+    </div>
+
+    <ul class="main-menu">
+        
+        <li data-ui-sref-active="active">
+            <a data-ui-sref="main.home" data-ng-click="app.sidebarStat($event)"><i class="zmdi zmdi-home"></i> Home</a>
+        </li>
+        <li data-ui-sref-active="active">
+            <a data-ui-sref="main.search.choice" data-ng-click="app.sidebarStat($event)"><i class="zmdi zmdi-search"></i> Recherche</a>
+        </li>
+        <li data-ui-sref-active="active">
+            <a data-ui-sref="main.contact" data-ng-click="app.sidebarStat($event)"><i class="zmdi zmdi-email"></i> Contact</a>
+        </li>
+        
+    </ul>
+</div>

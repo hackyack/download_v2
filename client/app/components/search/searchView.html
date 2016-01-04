@@ -1,0 +1,12 @@
+<div class="container ng-scope">
+	<div class="block-header">
+		<h2>Recherche</h2>
+	</div>
+	<div style="text-align: center;">
+		<button class="btn btn-icon waves-effect waves-circle" ng-class="view.state == 'movie' ? 'bgm-cyan' : 'btn-default'" data-ui-sref="main.search.movie" ng-click="view.state = 'movie'"><i class="zmdi zmdi-movie"></i></button>
+		<button class="btn btn-icon waves-effect waves-circle" ng-class="view.state == 'tv' ? 'bgm-purple' : 'btn-default'" data-ui-sref="main.search.tv" ng-click="view.state = 'tv'"><i class="zmdi zmdi-tv"></i></button>
+		<button class="btn btn-icon waves-effect waves-circle" ng-class="view.state == 'other' ? 'bgm-green' : 'btn-default'" data-ui-sref="main.search.other" ng-click="view.state = 'other'"><i class="zmdi zmdi-download"></i></button>
+	</div>
+
+    <div data-ui-view=""></div>
+</div>

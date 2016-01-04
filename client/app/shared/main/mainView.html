@@ -1,0 +1,7 @@
+<header id="header" class="clearfix" data-current-skin="blue">
+	<div ui-view="header"></div>
+</header>
+<section id="main">
+  <aside id="sidebar" data-ng-class="{ 'toggled': app.sidebarToggle.left === true }" ui-view="sidebar"></aside>
+  <section id="content" data-ui-view="" class="page-view"></section>
+</section>

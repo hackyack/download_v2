@@ -1,0 +1,194 @@
+<div class="container ng-scope">
+	<div class="block-header">
+		<h2>Préférences</h2>
+	</div>
+	<div class="card">
+		<div class="card-header">
+			<h2>Préférences d'accès <small>Paramétrage des accès aux différents services.</small></h2>
+		</div>
+
+		<div class="card-body card-padding">
+			<p class="c-black f-500 m-b-5">Synology</p>
+			<small>Accès au NAS pour le stockage des éléments téléchargés.</small>
+
+			<br><br>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group fg-line">
+								<label>Protocole</label>
+								<div class="select">
+									<select ng-model="view.synology.protocole" class="form-control">
+										<option value="http">http</option>
+										<option value="https">https</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group fg-line">
+								<label>Hôte</label>
+								<input ng-model="view.synology.host" type="text" class="form-control" placeholder="ex: username.synology.me">
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group fg-line">
+								<label>Port</label>
+								<input ng-model="view.synology.port" type="text" class="form-control" placeholder="ex: 3000">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group fg-line">
+								<label>Nom d'utilisateur</label>
+								<input ng-model="view.synology.username" type="text" class="form-control">
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group fg-line">
+								<label>Mot de passe</label>
+								<input ng-model="view.synology.password" type="password" class="form-control">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div ng-if="view.status.synology == 'loading'" class="preloader pl-sm" style="vertical-align: middle">
+		                <svg class="pl-circular" viewBox="25 25 50 50" >
+		                    <circle class="plc-path" cx="50" cy="50" r="20" style="stroke-width: 5;"/>
+		                </svg>
+		            </div>
+		            <i ng-if="view.status.synology == 'connected'" class="zmdi zmdi-check-circle c-green" style="vertical-align: middle; font-size: 36px"></i>
+		            <i ng-if="view.status.synology == 'disconnected'" class="zmdi zmdi-alert-circle c-red" style="vertical-align: middle; font-size: 36px"></i>
+		            <i ng-if="view.status.synology == 'waiting'" class="zmdi zmdi-help c-lightblue" style="vertical-align: middle; font-size: 36px"></i>
+					<button ng-if="view.status.synology == 'disconnected' || view.status.synology == 'waiting'" class="btn btn-primary waves-effect">Lier le compte</button>
+				</div>
+			</div>
+			<br><br>
+
+			<p class="c-black f-500 m-b-5">The Movie Database</p>
+			<small>
+				Récupération des metadonnées des films et séries. La clef s'obtient depuis votre compte <a href="https://www.themoviedb.org">The Movie Database</a>.
+			</small>
+
+			<br><br>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group fg-line">
+						<label>API key</label>
+						<input ng-model="view.account.movieDB.key" type="text" class="form-control">
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div ng-if="view.status.movieDB == 'loading'" class="preloader pl-sm" style="vertical-align: middle">
+		                <svg class="pl-circular" viewBox="25 25 50 50">
+		                    <circle class="plc-path" cx="50" cy="50" r="20" style="stroke-width: 5;"/>
+		                </svg>
+		            </div>
+		            <i ng-if="view.status.movieDB == 'connected'" class="zmdi zmdi-check-circle c-green" style="vertical-align: middle; font-size: 36px"></i>
+		            <i ng-if="view.status.movieDB == 'disconnected'" class="zmdi zmdi-alert-circle c-red" style="vertical-align: middle; font-size: 36px"></i>
+		            <i ng-if="view.status.movieDB == 'waiting'" class="zmdi zmdi-help c-lightblue" style="vertical-align: middle; font-size: 36px"></i>
+					<button ng-if="view.status.movieDB == 'disconnected' || view.status.movieDB == 'waiting'" class="btn btn-primary waves-effect" ng-click="view.linkMovieDBAccount()">Lier le compte</button>
+				</div>
+			</div>
+			<br><br>
+
+			<p class="c-black f-500 m-b-5">Real-Debrid</p>
+			<small>
+				Débridage des liens. La clef s'obtient depuis votre compte <a href="https://real-debrid.com/apitoken">Real-Debrid</a>.
+			</small>
+
+			<br><br>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group fg-line">
+						<label>API key</label>
+						<input ng-model="view.realDebrid.key" type="text" class="form-control">
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div ng-if="view.status.realDebrid == 'loading'" class="preloader pl-sm" style="vertical-align: middle">
+		                <svg class="pl-circular" viewBox="25 25 50 50">
+		                    <circle class="plc-path" cx="50" cy="50" r="20" style="stroke-width: 5;"/>
+		                </svg>
+		            </div>
+		            <i ng-if="view.status.realDebrid == 'connected'" class="zmdi zmdi-check-circle c-green" style="vertical-align: middle; font-size: 36px"></i>
+		            <i ng-if="view.status.realDebrid == 'disconnected'" class="zmdi zmdi-alert-circle c-red" style="vertical-align: middle; font-size: 36px"></i>
+		            <i ng-if="view.status.realDebrid == 'waiting'" class="zmdi zmdi-help c-lightblue" style="vertical-align: middle; font-size: 36px"></i>
+					<button ng-if="view.status.realDebrid == 'disconnected' || view.status.realDebrid == 'waiting'" class="btn btn-primary waves-effect">Lier le compte</button>
+				</div>
+			</div>
+			<br><br>
+
+			<p class="c-black f-500 m-b-5">T411</p>
+			<small>
+				Récupération des fichiers torrent depuis votre compte <a href="http://www.t411.in/">T411</a>.
+			</small>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group fg-line">
+								<label>Nom d'utilisateur</label>
+								<input ng-model="view.account.t411.username" type="text" class="form-control">
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group fg-line">
+								<label>Mot de passe</label>
+								<input ng-model="view.account.t411.password" type="password" class="form-control">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div ng-if="view.status.t411 == 'loading'" class="preloader pl-sm" style="vertical-align: middle">
+		                <svg class="pl-circular" viewBox="25 25 50 50">
+		                    <circle class="plc-path" cx="50" cy="50" r="20" style="stroke-width: 5;"/>
+		                </svg>
+		            </div>
+		            <i ng-if="view.status.t411 == 'connected'" class="zmdi zmdi-check-circle c-green" style="vertical-align: middle; font-size: 36px"></i>
+		            <i ng-if="view.status.t411 == 'disconnected'" class="zmdi zmdi-alert-circle c-red" style="vertical-align: middle; font-size: 36px"></i>
+		            <i ng-if="view.status.t411 == 'waiting'" class="zmdi zmdi-help c-lightblue" style="vertical-align: middle; font-size: 36px"></i>
+					<button ng-if="view.status.t411 == 'disconnected' || view.status.t411 == 'waiting'" class="btn btn-primary waves-effect" ng-click="view.linkT411Account()">Lier le compte</button>
+				</div>
+			</div>
+			<br><br>
+		</div>
+	</div>
+	<div class="card">
+		<div class="card-header">
+			<h2>Préférences de téléchargement <small>Paramétrage des chemins d'accès aux différents dossiers.</small></h2>
+		</div>
+
+		<div class="card-body card-padding">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group fg-line">
+						<label>Téléchargements</label>
+						<input ng-model="view.folder.downloads" type="text" class="form-control" placeholder="ex: /downloads">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group fg-line">
+						<label>Films</label>
+						<input ng-model="view.folder.movie" type="text" class="form-control" placeholder="ex: /video/Film">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group fg-line">
+						<label>Séries</label>
+						<input ng-model="view.folder.tv" type="text" class="form-control" placeholder="ex: /video/Serie">
+					</div>
+				</div>
+			</div>
+			<button class="btn btn-primary waves-effect">Sauvegarder</button>
+		</div>
+	</div>
+</div>

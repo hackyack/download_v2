@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!--if IE 9 html.ie9(data-ng-app='app')
+-->
+<html data-ng-app="app" data-ng-class="{'login-content':  $root.state == 'login'}" ng-cloak>
+	<head>
+		<base href="/">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Angular Seed</title>
+		<!-- Vendor CSS-->
+		<link href="assets/libs/bower_components/animate.css/animate.min.css" rel="stylesheet">
+		<link href="assets/libs/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
+		<link href="assets/libs/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+		<link href="assets/libs/bower_components/bootstrap-sweetalert/lib/sweet-alert.css" rel="stylesheet">
+		<link href="assets/libs/bower_components/angular-loading-bar/src/loading-bar.css" rel="stylesheet">
+		<link href="assets/libs/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+		<link href="assets/libs/bower_components/chosen/chosen.min.css" rel="stylesheet">
+		<!-- CSS-->
+		<link id="app-level" href="assets/css/app.min.1.css" rel="stylesheet">
+		<link id="app-level" href="assets/css/app.min.2.css" rel="stylesheet">
+
+		<link href="assets/css/style.css" rel="stylesheet">
+	</head>
+	<body data-ng-controller="appController as app" data-ng-class="{ 'sw-toggled': app.layoutType === '1' && $root.state != 'login', 'modal-open': app.sidebarToggle.left === true, 'login-content':  $root.state == 'login'}">
+		<data ui-view data-ng-class="{'full-view':  $root.state == 'login'}"></data>
+		<!-- Older IE warning message-->
+		<!--if lt IE 9
+		.ie-warning
+			h1.c-white Warning!!
+			p
+				| You are using an outdated version of Internet Explorer, please upgrade
+				br
+				| to any of the following web browsers to access this website.
+			.iew-container
+				ul.iew-download
+					li
+						a(href='http://www.google.com/chrome/')
+							img(src='img/browsers/chrome.png', alt='')
+							div Chrome
+					li
+						a(href='https://www.mozilla.org/en-US/firefox/new/')
+							img(src='img/browsers/firefox.png', alt='')
+							div Firefox
+					li
+						a(href='http://www.opera.com')
+							img(src='img/browsers/opera.png', alt='')
+							div Opera
+					li
+						a(href='https://www.apple.com/safari/')
+							img(src='img/browsers/safari.png', alt='')
+							div Safari
+					li
+						a(href='http://windows.microsoft.com/en-us/internet-explorer/download-ie')
+							img(src='img/browsers/ie.png', alt='')
+							div IE (New)
+			p Sorry for the inconvenience!
+		-->
+	</body>
+	<!-- Core-->
+	<script src="assets/libs/bower_components/jquery/dist/jquery.min.js"></script>
+	<!-- Angular-->
+	<script src="assets/libs/bower_components/angular/angular.min.js"></script>
+	<script src="assets/libs/bower_components/angular-animate/angular-animate.min.js"></script>
+	<script src="assets/libs/bower_components/angular-resource/angular-resource.min.js"></script>
+	<script src="assets/libs/bower_components/angular-i18n/angular-locale_fr.js"></script>
+	<!-- Angular Modules-->
+	<script src="assets/libs/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script src="assets/libs/bower_components/angular-permission/dist/angular-permission.js"></script>
+	<script src="assets/libs/bower_components/angular-loading-bar/src/loading-bar.js"></script>
+	<script src="assets/libs/bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+	<script src="assets/libs/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<!-- Common assets/libs-->
+	<script src="assets/libs/bower_components/jquery.nicescroll/jquery.nicescroll.min.js"></script>
+	<script src="assets/libs/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
+	<script src="assets/libs/bower_components/Waves/dist/waves.min.js"></script>
+	<script src="assets/libs/bootstrap-growl/bootstrap-growl.min.js"></script>
+	<script src="assets/libs/bower_components/ng-table/dist/ng-table.min.js"></script>
+	<script src="assets/libs/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script src="assets/libs/bower_components/chosen/chosen.jquery.min.js"></script>
+	<script src="assets/libs/bower_components/angular-jwt/dist/angular-jwt.min.js"></script>
+	<script src="assets/libs/bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+
+
+	<!-- Placeholder for IE9-->
+	<!--if IE 9 script(src='assets/libs/bower_components/jquery-placeholder/jquery.placeholder.min.js')
+	-->
+	<!-- Using below assets/libs in order to avoid misloading on resolve-->
+	<script src="assets/libs/bower_components/angular-nouislider/src/nouislider.min.js"></script>
+	<script src="assets/libs/input-mask/input-mask.min.js"></script>
+
+	<!-- App config-->
+	<script src="app/app.modules.js"></script>
+	<script src="app/app.routes.js"></script>
+
+	<!-- Shared controllers s-->
+	<script src="app/shared/main/mainController.js"></script>
+	<script src="app/shared/header/headerController.js"></script>
+	<script src="app/shared/sidebar/sidebarController.js"></script>
+
+	<!-- Components controllers -->
+	<script src="app/components/login/loginController.js"></script>
+	<script src="app/components/home/homeController.js"></script>
+	<script src="app/components/contact/contactController.js"></script>
+	<script src="app/components/settings/settingsController.js"></script>
+	<script src="app/components/search/searchController.js"></script>
+	<script src="app/components/search/movie/searchMovieController.js"></script>
+	<script src="app/components/search/tv/searchTvController.js"></script>
+	<script src="app/components/search/other/searchOtherController.js"></script>
+	
+	<!-- Directives-->
+	<script src="app/shared/main/mainDirective.js"></script>
+
+	<!-- Filters-->
+
+	<!-- Services-->
+	<script src="app/shared/main/mainService.js"></script>
+	<script src="app/components/login/loginService.js"></script>
+	<script src="app/components/settings/settingsService.js"></script>
+</html>

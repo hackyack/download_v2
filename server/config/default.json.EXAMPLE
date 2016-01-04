@@ -1,0 +1,6 @@
+{
+// MongoDB config
+  "MongoDB": {
+    "uri": "mongodb://[username]:[password]@[mongourl]/[database]"
+  }
+}
