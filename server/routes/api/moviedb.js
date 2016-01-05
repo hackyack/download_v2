@@ -178,7 +178,6 @@ exports.getSeasons = function (req, res) {
             json: true
         });
     }).then(function (response) {
-        console.log(response);
         var seasons = [];
         for (var i in response.seasons) {
             var result = response.seasons[i];

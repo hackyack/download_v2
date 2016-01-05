@@ -43,7 +43,8 @@ app.post('/api/settings/t411/link', middleware.authenticateUser, API.settings.li
 app.get('/api/settings/t411/check', middleware.authenticateUser, API.settings.checkT411);
 app.post('/api/settings/movieDB/link', middleware.authenticateUser, API.settings.linkMovieDB);
 app.get('/api/settings/movieDB/check', middleware.authenticateUser, API.settings.checkMovieDB);
-
+app.post('/api/settings/synology/link', middleware.authenticateUser, API.settings.linkSynology);
+app.get('/api/settings/synology/check', middleware.authenticateUser, API.settings.checkSynology);
 // Torrents
 app.get('/api/torrents/:term', middleware.authenticateUser, API.torrents.search);
 

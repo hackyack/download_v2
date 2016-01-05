@@ -1,4 +1,5 @@
 var request = require('request-promise');
+var Syno = require('syno');
 
 exports.authT411 = function (req, username, password) {
     return new Promise(function(resolve, reject) {
@@ -77,5 +78,32 @@ exports.authMovieDB = function(req, key) {
         else {
             resolve(req.settings.account.movieDB.token);
         }
+    });
+};
+
+exports.authSynology = function (req, protocol, host, port,username, password) {
+    return new Promise(function(resolve, reject) {
+        protocol = protocol ? protocol : req.settings.account.synology.protocol;
+        host = host ? host : req.settings.account.synology.host;
+        port = port ? port : req.settings.account.synology.port;
+        username = username ? username : req.settings.account.synology.username;
+        password = password ? password : req.settings.account.synology.password;
+            
+        var syno = new Syno({
+            protocol: protocol,
+            host: host,
+            port: port,
+            account: username,
+            passwd: password
+        });
+
+        syno.auth.login(function(error, response) {
+            if (response && response.sid) {
+                resolve(syno);
+            }
+            else {
+                reject();
+            }
+        })
     });
 };

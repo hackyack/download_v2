@@ -27,20 +27,22 @@ angular.module('app.controllers')
 		},
 		movieDB: {
 			key: ""
+		},
+		synology: {
+			protocol: "",
+			host: "",
+			port: "",
+			username: "",
+			password: ""
 		}		
 	};
 
 	settingsService.get().then(function(settings) {
-		console.log(settings);
-		if (settings.account) {
-			if (settings.account.t411) {
-				self.account.t411.username = settings.account.t411.username;
-				self.account.t411.password = settings.account.t411.password;
-			}
-			if (settings.account.movieDB) {
-				self.account.movieDB.key = settings.account.movieDB.key;
-			}
-		}		
+
+		if (settings) {
+			self.account = settings.account;
+		}
+
 	}).catch(function (err) {
 		console.log(err);
 	});
@@ -82,12 +84,33 @@ angular.module('app.controllers')
 		self.status.movieDB = "loading";
 		settingsService.linkMovieDBAccount(self.account.movieDB.key).then(function(response) {
 			self.status.movieDB = "connected";
-			console.log("movieDB account linked !");
+			console.log("MovieDB account linked !");
 		}).catch(function (err) {
 			self.status.movieDB = "disconnected";
 			console.log("MovieDB account not linked...");
 		});
 	}
 	
+	// Check Synology account
+	this.status.synology = "loading";
+	settingsService.checkSynologyAccount().then(function(response) {
+		self.status.synology = "connected";
+		console.log("Synology account linked !");
+	}).catch(function (err) {
+		self.status.synology = "disconnected";
+		console.log("Synology account not linked...");
+	});
+
+	// Link Synology account
+	this.linkSynologyAccount = function () {
+		self.status.synology = "loading";
+		settingsService.linkSynologyAccount(self.account.synology.protocol, self.account.synology.host, self.account.synology.port, self.account.synology.username, self.account.synology.password).then(function(response) {
+			self.status.synology = "connected";
+			console.log("Synology account linked !");
+		}).catch(function (err) {
+			self.status.synology = "disconnected";
+			console.log("Synology account not linked...");
+		});
+	}
 
 }]);

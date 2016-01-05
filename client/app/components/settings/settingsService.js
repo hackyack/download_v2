@@ -106,5 +106,51 @@ angular.module('app.services')
 		});
 	}
 
+	settingsService.linkSynologyAccount = function(protocol, host, port, username, password) {
+		return new Promise(function(resolve, reject) {
+			$http({
+				method: 'POST',
+				url: '/api/settings/synology/link',
+				headers: {'Content-Type': 'application/json'},	
+				data: {
+					protocol: protocol,
+					host: host,
+					port: port,
+					username: username,
+					password: password
+				}
+			}).then(function(response) {
+				if (response.data && response.data.success) {
+					resolve(response);
+				}
+				else {
+					reject();
+				}
+				
+			}).catch(function(err) {
+				reject();
+			});
+		});
+	}
+
+	settingsService.checkSynologyAccount = function() {
+		return new Promise(function(resolve, reject) {
+			$http({
+				method: 'GET',
+				url: '/api/settings/synology/check',
+			}).then(function(response) {
+				if (response.data && response.data.success) {
+					resolve();
+				}
+				else {
+					reject();
+				}
+				
+			}).catch(function(err) {
+				reject();
+			});
+		});
+	}
+
 	return settingsService;
 });

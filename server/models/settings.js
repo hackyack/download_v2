@@ -11,7 +11,7 @@ var settingsSchema = Schema({
 	},
 	account: {
 		synology: {
-			procotole: String,
+			protocol: String,
 			host: String,
 			port: Number,
 			username: String,

@@ -1,9 +1,39 @@
 <div class="row">
     <div class="col-sm-offset-3 col-sm-6">
         <div class="card m-t-25">
-            <div class="card-body card-padding">
-                <h2 style="text-align: center;">Other search</h2>
+            <div class="card-body">
+                <form class="search-input" ng-submit="subview.searchTorrent()">
+                    <input ng-model="subview.searchTerm" type="text" placeholder="ex: Avatar">
+                    <button type="submit" class="waves-effect"><i class="zmdi zmdi-search"></i></button>
+                </form>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="card m-t-25">
+    <div class="card-header">
+        <h2>Resultats de la recherche <small>Liste des torrents correspondants.</small></h2>
+    </div>
+            
+    <div class="card-body" ng-if="subview.torrentResult">
+        <div class="table-responsive">
+            <table ng-table="subview.torrentResult" class="table table-striped table-vmiddle">
+                <tr ng-repeat="w in $data" ng-click="subview.selectedItem = w.id" ng-class="w.id == subview.selectedItem ? 'bgm-bluegray c-white' : 'focusable'">
+                    <td data-title="'Name'">
+                        {{ w.name }}
+                    </td>
+                    <td data-title="'Size'">
+                        {{ w.size | bytes}}
+                    </td>
+                    <td data-title="'Seeders'">
+                        {{ w.seeders }}
+                    </td>
+                    <td data-title="'Leechers'">
+                        {{ w.leechers }}
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
