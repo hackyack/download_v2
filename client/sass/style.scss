@@ -48,3 +48,117 @@ body {
 html {
     overflow-y: scroll;
 }
+
+
+
+//Steppers
+.steps-material {
+    margin: 0;
+    font-size: 0;
+    padding: 0;
+    &[data-steps="2"] li { width: 49%; }
+    &[data-steps="3"] li { width: 33%; }
+    &[data-steps="4"] li { width: 24%; }
+    &[data-steps="5"] li { width: 19%; }
+    &[data-steps="6"] li { width: 16%; }
+    &[data-steps="7"] li { width: 14%; }
+    &[data-steps="8"] li { width: 12%; }
+    &[data-steps="9"] li { width: 11%; }
+
+    .step {
+        position: relative;
+        display: inline-block;
+        font-size: 13px;
+        text-align: center;
+        overflow: hidden;
+        vertical-align: top;
+        color: #D3D3D3;
+
+        &:before {
+            content: "";
+            display: block;
+            top: 12px;
+            left: 0;
+            width: calc(50% - 25px);
+            height: 1px;
+            background: #EAEAEA;
+            position: absolute;
+        }
+        &:after {
+            content: "";
+            display: block;
+            top: 12px;
+            right: 0;
+            width: calc(50% - 25px);
+            height: 1px;
+            background: #EAEAEA;
+            position: absolute;
+        }
+
+        .icon {
+            margin: auto;
+            width: 26px;
+            height: 26px;
+            line-height: 26px;
+            border-radius: 50%;
+            color: white;
+            background: #CDCDCD ;
+            i {
+                font-size: 18px;
+                vertical-align: middle;
+            }
+            margin-bottom: 10px;
+        }
+
+        &.done, &.active {
+            .icon {
+                background: #2196F3;
+                font-weight: normal;
+            }
+            font-weight: bold;
+            color: inherit;
+        }
+    }
+
+    li:first-of-type.step:before {
+        display: none;
+    }
+
+    li:last-of-type.step:after {
+        display: none;
+    }
+}
+
+
+.fixed-ratio {
+    position: relative;
+    width: 100%;     /* desired width */
+    &.ratio1:before {
+        content: "";
+        display: block;
+        padding-top: 100%;
+    }
+    &.ratio16_9:before {
+        content: "";
+        display: block;
+        padding-top: 56.25%;
+    }
+    &.ratio3_4:before {
+        content: "";
+        display: block;
+        padding-top: 133.33%;
+    }
+    &.ratio20_9:before {
+        content: "";
+        display: block;
+        padding-top: 45%;
+    }
+    .content {
+        position:  absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        overflow: hidden;
+    }
+}

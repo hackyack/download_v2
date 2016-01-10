@@ -24,7 +24,7 @@ exports.searchMovie = function (req, res) {
                 var movie = {
                     id: result.id,
                     name: result.title,
-                    image: result.poster_path,
+                    poster_path: result.poster_path,
                     year: year
                 };
                 if (movies.length == 5) {
@@ -96,9 +96,9 @@ exports.searchTv = function (req, res) {
             var tv = {
                 id: result.id,
                 name: result.original_name,
-                image: result.poster_path
+                poster_path: result.poster_path
             };
-            if (tvs.length == 5) {
+            if (tvs.length == 6) {
                 break;
             }
             tvs.push(tv);

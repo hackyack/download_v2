@@ -1,78 +1,133 @@
-<div class="row">
-    <div class="col-sm-offset-3 col-sm-6">
-        <div class="card m-t-25">
-            <div class="card-body">
-                <div class="search-input">
-                    <input type="text" ng-model="subview.asyncSelected" placeholder="Série" typeahead="movie as movie.name for movie in subview.getTvs($viewValue)" typeahead-on-select="subview.selectItem($item, $model, $label)" typeahead-template-url="customTemplate.html" class="form-control">
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="card">
+	<div class="card-body card-padding">
+		<ul class="steps-material" data-steps="{{subview.steps.length}}">
+			<li class="step" ng-class="step.state" ng-repeat="step in subview.steps track by $index" ng-click="subview.goTo($index + 1)">
+				<div ng-if="step.state == 'done'" class="icon"><i class="zmdi zmdi-check"></i></div>
+				<div ng-if="step.state != 'done'" class="icon"><span>{{$index+1}}</span></div>
+				<span>{{step.name}}</span>
+			</li>
+		</ul>
+	</div>
 </div>
 
-<div class="row" ng-if="subview.selectedItemInfo">
-    <div class="col-sm-offset-3 col-sm-6">
-        <div class="card">
-            <div style="width: 100%; max-height: 250px; overflow: hidden;">
-                 <img style="width: 100%;" ng-src="https://image.tmdb.org/t/p/w1000{{subview.selectedItemInfo.backdrop_path}}">
-            </div>
-            <div class="card-header bgm-bluegray">
-                <h2>{{subview.selectedItemInfo.original_name}}</h2>
-            </div>
-            <div class="card-body">
-                <div class="card-body card-padding" style="height: 100%; position: relative">
-                    <p>{{subview.selectedItemInfo.overview}}</p>
-                </div>
-            </div>
-        </div>
+<!-- Choose TV Show -->
+<div ng-show="subview.steps[0].state == 'active'">
+	<div class="row">
+	    <div class="col-sm-offset-3 col-sm-6">
+	        <div class="card m-t-25">
+	            <div class="card-body">
+	                <div class="search-input">
+	                    <input type="text" ng-model="subview.term" placeholder="Série" class="form-control" ng-change="subview.searchTvs(subview.term)">
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 
-        <div class="row">
-			<div class="col-sm-3 col-xs-6" ng-repeat="season in subview.seasons">
-				<a href="" ng-click="subview.selectSeason(season.season_number)">
-					<div class="card">
-						<div style="width: 100%; height: 240px; overflow: hidden;">
-			                 <img ng-if="season.poster_path" style="width: 100%;" ng-src="https://image.tmdb.org/t/p/w185{{season.poster_path}}">
-			                 <img ng-if="!season.poster_path" style="width: 100%;" ng-src="assets/img/movie-default.jpg"/>
-			            </div>
-			            <div class="card-header bgm-bluegray">
-			                <h2>Saison {{season.season_number}}
-			                	<small>{{season.episode_count}} épisodes <span ng-if="season.air_date"> - {{season.air_date | date:'yyyy'}}</span></small>
-			                </h2>
-			            </div>
-			        </a>
-		        </div>
+
+	<div class="row">
+		<div class="col-md-2 col-sm-3 col-xs-6" ng-repeat="tv in subview.results.tvs">
+			<a href="" ng-click="subview.selectTv(tv.id)">
+				<div class="card">
+					<div class="fixed-ratio ratio3_4">
+						<div class="content">
+			                <img ng-if="tv.poster_path" style="width: 100%" ng-src="https://image.tmdb.org/t/p/w185{{tv.poster_path}}">
+			                <img ng-if="!tv.poster_path" style="width: 100%" ng-src="assets/img/movie-default.jpg"/>
+		             	</div>
+		            </div>
+		            <div class="card-header bgm-bluegray">
+		                <h2>{{tv.name}}</h2>
+		            </div>
+		        </a>
+	        </div>
+		</div>
+	</div>
+</div>
+
+<!-- Choose Season -->
+<div ng-show="subview.steps[1].state == 'active'">
+	<div class="row">
+		<!-- TV Infos -->
+		<div class="col-sm-6">
+			<div class="card">
+	            <div class="fixed-ratio ratio20_9">
+					<div class="content">
+		                <img ng-if="subview.selected.tv.info.backdrop_path" style="width: 100%" ng-src="https://image.tmdb.org/t/p/w1000{{subview.selected.tv.info.backdrop_path}}">
+	             	</div>
+	            </div>
+	            <div class="card-header bgm-bluegray">
+	                <h2>{{subview.selected.tv.info.original_name}}</h2>
+	            </div>
+                <div class="card-body card-padding" style="height: 100%; position: relative">
+                    <p>{{subview.selected.tv.info.overview}}</p>
+                </div>
+	        </div>
+		</div>
+		<!-- Seasons -->
+		<div class="col-sm-6">
+			<div class="row">
+				<div class="col-md-4 col-sm-6 col-xs-6" ng-repeat="season in subview.results.seasons">
+					<a href="" ng-click="subview.selectSeason(season.season_number)">
+						<div class="card">
+							<div class="fixed-ratio ratio3_4">
+								<div class="content">
+					                <img ng-if="season.poster_path" style="width: 100%" ng-src="https://image.tmdb.org/t/p/w185{{season.poster_path}}">
+					                <img ng-if="!season.poster_path" style="width: 100%" ng-src="assets/img/movie-default.jpg"/>
+				             	</div>
+				            </div>
+				            <div class="card-header bgm-bluegray">
+				                <h2>Saison {{season.season_number}}
+				                	<small>{{season.episode_count}} épisodes <span ng-if="season.air_date"> - {{season.air_date | date:'yyyy'}}</span></small>
+				                </h2>
+				            </div>
+				        </a>
+			        </div>
+				</div>
 			</div>
 		</div>
-
-		<div ng-if="subview.episodes.length > 0" class="card">
-	        <div class="table-responsive">
-	            <table class="table table-striped">
-	                <thead>
-	                    <tr>
-	                        <th>#</th>
-	                        <th>Nom</th>
-	                        <th>Date</th>
-	                    </tr>
-	                </thead>
-	                <tbody>
-	                    <tr ng-repeat="episode in subview.episodes">
-	                        <td>{{episode.episode_number}}</td>
-	                        <td>{{episode.name}}</td>
-	                        <td>{{episode.air_date | date:'shortDate'}}</td>
-	                    </tr>
-	                </tbody>
-	            </table>
-	        </div>
-	   	</div>
-    </div>
+	</div>
 </div>
 
-
-
-<script type="text/ng-template" id="customTemplate.html">
-    <a>
-        <img ng-if="match.model.image" ng-src="https://image.tmdb.org/t/p/w185{{match.model.image}}" height="50" />
-        <img ng-if="!match.model.image" ng-src="assets/img/movie-default.jpg" height="50" />
-        <span>{{match.model.name}}</span>
-    </a>
-</script>
+<!-- Choose Episodes -->
+<div ng-show="subview.steps[2].state == 'active'">
+	<div class="card">
+		<div class="card-body card-padding">
+			<div ng-if="subview.results.episodes.length > 0">
+		        <div class="table-responsive">
+		            <table class="table table-striped">
+		                <thead>
+		                    <tr>
+		                    	<th>
+		                    		<div class="checkbox m-b-0 m-t-0">
+									    <label>
+									        <input type="checkbox" ng-model="subview.allEpisodesCheckbox" ng-click="subview.toggleAllEpisodes()">
+									        <i class="input-helper"></i>
+									    </label>
+									</div>
+		                    	</th>
+		                        <th>#</th>
+		                        <th>Nom</th>
+		                        <th>Date</th>
+		                    </tr>
+		                </thead>
+		                <tbody>
+		                    <tr ng-repeat="episode in subview.results.episodes">
+		                    	<td>
+		                    		<div class="checkbox m-b-0 m-t-0">
+									    <label>
+									        <input type="checkbox" ng-model="subview.episodesSelection[episode.episode_number]" ng-click="subview.checkCheckedAllEpisodes()">
+									        <i class="input-helper"></i>
+									    </label>
+									</div>
+		                    	</th>
+		                        <td>{{episode.episode_number}}</td>
+		                        <td>{{episode.name}}</td>
+		                        <td>{{episode.air_date | date:'shortDate'}}</td>
+		                    </tr>
+		                </tbody>
+		            </table>
+		        </div>
+		    </div>
+	   	</div>
+	</div>
+</div>

@@ -1,40 +1,42 @@
 'use strict';
 
 angular.module('app.controllers')
-.controller('searchMovieController', ["$scope", '$http', 'ngTableParams', function ($scope, $http) {
+.controller('searchMovieController', ["$scope", '$http', 'steppersService', 'searchMovieService', function ($scope, $http, steppersService, searchMovieService) {
 	self = this;
 
-	self.selectedItemInfo = undefined;
-	self.selectItem = undefined;
+	self.steps = steppersService.steps(["Film", "Téléchargement"]);
+	self.term = "";
 
-    self.getMovies = function(val) {
-    	self.selectItemInfo = undefined;
-        return $http({
-			method: 'GET',
-			url: '/api/moviedb/search/movie',
-			params: {
-				term: val
-			}
-		}).then(function (response) {
-			if (response.data.success) {
-				return response.data.movies.map(function(item){
-	                return item;
-	            });
-			}
-        });
-    };
+	self.results = {
+		movies: []
+	};
 
-    self.selectItem = function(item, model, label) {
-    	return $http({
-			method: 'GET',
-			url: '/api/moviedb/movie/' + model.id
-		}).then(function (response) {
-			if (response.data.success) {
-				self.selectedItemInfo = response.data.info;
-			}
-			console.log(self.selectedItemInfo);
-		});
-    };
+	self.selected = {
+		movie: undefined
+	};
+
+	self.goTo = function(number) {
+		steppersService.goTo(number);
+	}
+
+    self.searchMovies = function(term) {
+		if (term != undefined && term != "") {
+			searchMovieService.searchMovies(term).then(function (movies) {
+				self.results.movies = movies;
+			})
+		}
+	};
+
+    self.selectMovie = function(id) {
+    	self.selected.movie = {
+    		id: id,
+    		info: undefined,
+    	}
+    	searchMovieService.getMovieInfo(id).then(function (info) {
+    		self.selected.movie.info = info;
+    		steppersService.next();
+    	});
+    }
 
  }]);
 

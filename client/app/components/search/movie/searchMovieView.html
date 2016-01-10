@@ -1,9 +1,65 @@
-<div class="row">
-    <div class="col-sm-offset-3 col-sm-6">
-        <div class="card m-t-25">
-            <div class="card-body">
-                <div class="search-input">
-                    <input type="text" ng-model="subview.asyncSelected" placeholder="Film" typeahead="movie as movie.name for movie in subview.getMovies($viewValue)" typeahead-on-select="subview.selectItem($item, $model, $label)" typeahead-template-url="customTemplate.html" class="form-control">
+<div class="card">
+    <div class="card-body card-padding">
+        <ul class="steps-material" data-steps="{{subview.steps.length}}">
+            <li class="step" ng-class="step.state" ng-repeat="step in subview.steps track by $index" ng-click="subview.goTo($index + 1)">
+                <div ng-if="step.state == 'done'" class="icon"><i class="zmdi zmdi-check"></i></div>
+                <div ng-if="step.state != 'done'" class="icon"><span>{{$index+1}}</span></div>
+                <span>{{step.name}}</span>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Choose Movie -->
+<div ng-show="subview.steps[0].state == 'active'">
+    <div class="row">
+        <div class="col-sm-offset-3 col-sm-6">
+            <div class="card m-t-25">
+                <div class="card-body">
+                    <div class="search-input">
+                        <input type="text" ng-model="subview.term" placeholder="Film" class="form-control" ng-change="subview.searchMovies(subview.term)">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-2 col-sm-3 col-xs-6" ng-repeat="movie in subview.results.movies">
+            <a href="" ng-click="subview.selectMovie(movie.id)">
+                <div class="card">
+                    <div class="fixed-ratio ratio3_4">
+                        <div class="content">
+                            <img ng-if="movie.poster_path" style="width: 100%" ng-src="https://image.tmdb.org/t/p/w185{{movie.poster_path}}">
+                            <img ng-if="!movie.poster_path" style="width: 100%" ng-src="assets/img/movie-default.jpg"/>
+                        </div>
+                    </div>
+                    <div class="card-header bgm-bluegray">
+                        <h2>{{movie.name}}<span ng-if="movie.year"> ({{movie.year}})</span></h2>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Downloads -->
+<div ng-show="subview.steps[1].state == 'active'">
+    <div class="row">
+        <!-- TV Infos -->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="fixed-ratio ratio20_9">
+                    <div class="content">
+                        <img ng-if="subview.selected.movie.info.backdrop_path" style="width: 100%" ng-src="https://image.tmdb.org/t/p/w1000{{subview.selected.movie.info.backdrop_path}}">
+                    </div>
+                </div>
+                <div class="card-header bgm-bluegray">
+                    <h2>{{subview.selected.movie.info.original_title}}</h2>
+                </div>
+                <div class="card-body card-padding">
+                    <p>{{subview.selected.movie.info.overview}}</p>
                 </div>
             </div>
         </div>
@@ -27,12 +83,3 @@
         </div>
     </div>
 </div>
-
-<script type="text/ng-template" id="customTemplate.html">
-    <a>
-        <img ng-if="match.model.image" ng-src="https://image.tmdb.org/t/p/w185{{match.model.image}}" height="50" />
-        <img ng-if="!match.model.image" ng-src="assets/img/movie-default.jpg" height="50" />
-        <span>{{match.model.name}}</span>
-        <ng-if="match.model.year"> ({{match.model.year}})</span>
-    </a>
-</script>
