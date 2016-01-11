@@ -47,6 +47,7 @@ app.post('/api/settings/synology/link', middleware.authenticateUser, API.setting
 app.get('/api/settings/synology/check', middleware.authenticateUser, API.settings.checkSynology);
 // Torrents
 app.get('/api/torrents/:term', middleware.authenticateUser, API.torrents.search);
+app.get('/api/torrents/tv/:tvshow', middleware.authenticateUser, API.torrents.searchTv);
 
 // Movie and TV
 app.get('/api/moviedb/search/movie', middleware.authenticateUser, API.movieDB.searchMovie);

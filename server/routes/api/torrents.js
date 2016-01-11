@@ -10,7 +10,7 @@ exports.search = function (req, res) {
             var term = req.params.term;
             var offset = req.query.offset ? req.query.offset : 0;
             var limit = req.query.limit ? req.query.limit : 10;
-            return searchT411(term, offset, limit, token);
+            return searchRequest(term, offset, limit, token);
         }).then(function (results) {
             res.status(200).json({
                 success: true,
@@ -31,7 +31,7 @@ exports.search = function (req, res) {
     } 
 };
 
-function searchT411(term, offset, limit, token) {
+function searchRequest(term, offset, limit, token) {
     return new Promise(function(resolve, reject) {
         request({
             method: 'GET',
@@ -56,4 +56,91 @@ function searchT411(term, offset, limit, token) {
         })
     });
 }
+
+exports.searchTv = function (req, res) {
+    // If term in query
+    if (req.params.tvshow && req.params.tvshow != "" && req.query.season && req.query.episode) {
+        Accounts.authT411(req).then(function (token) {
+            var tvshow = req.params.tvshow;
+            var season = req.query.season;
+            var episode = req.query.episode;
+            return searchTvRequest(tvshow, season, episode, token);
+        }).then(function (results) {
+            res.status(200).json({
+                success: true,
+                results: results
+            });
+        }).catch(function (error) {
+            res.status(200).json({
+                success: false,
+                message: error
+            });
+        });
+    }
+    else {
+        res.status(200).json({
+            success: false,
+            message: "Missing parameters."
+        })
+    } 
+};
+
+function searchTvRequest(tvshow, season_number, episode_number, token) {
+    return new Promise(function(resolve, reject) {
+        request({
+            method: 'GET',
+            uri: 'http://api.t411.in/torrents/search/' + tvshow,
+            qs: {
+                "cid": 433,                                     // TV Show type
+                "term[45][]": getSeasonId(season_number),       // Season
+                "term[46][]": getEpisodeId(episode_number),      // Episode
+                limit: 100
+            },
+            headers: {
+                'Authorization': token
+            },
+            json: true
+        }).then(function (results) {
+            if (results.torrents) {
+                resolve(results);
+            }
+            else {
+                reject("T411 search error.");
+            }           
+        }).catch(function (err) {
+            reject("T411 search error :" + err);
+        })
+    });
+}
+
+function getEpisodeId(number) {
+    number = parseInt(number);
+    if (0 < number && number < 9) {
+        return number + 936;
+    }
+    else if (8 < number && number < 31) {
+        return number + 937;
+    }
+    else if (30 < number && number < 61) {
+        return number + 1057;
+    }
+    else {
+        return undefined;
+    }
+}
+
+function getSeasonId(number) {
+    number = parseInt(number);
+    if (number == 0) {
+        return 1068;
+    }
+    if (0 < number && number < 31) {
+        return number + 967;
+    }
+    else {
+        return undefined;
+    }
+}
+
+
 
