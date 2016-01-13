@@ -66,6 +66,11 @@ exports.searchTv = function (req, res) {
             var episode = req.query.episode;
             return searchTvRequest(tvshow, season, episode, token);
         }).then(function (results) {
+            var torrents = [];
+            for (var i in results.torrents) {
+                torrents.push(extractData(results.torrents[i]));
+            }
+            results.torrents = torrents;
             res.status(200).json({
                 success: true,
                 results: results
@@ -143,4 +148,45 @@ function getSeasonId(number) {
 }
 
 
+function extractData(torrent) {
+    return {
+        id: torrent.id,
+        name: torrent.name,
+        size: torrent.size,
+        quality: DataParser.get("quality", torrent.rewritename),
+        language: DataParser.get("language", torrent.rewritename),
+        codec: DataParser.get("codec", torrent.rewritename),
+        seeders: torrent.seeders,
+        date: torrent.added
+    }
+}
+
+var DataParser = {
+    datas: {
+        codec: {
+            "x265": ["265"],
+            "x264": ["264"]
+        },
+        language: {
+            "multi": ["multi"],
+            "vf": ["vf", "french"],
+            "vostfr": ["vostfr"]            
+        },
+        quality: {
+            "1080p": ["1080"],
+            "720p": ["720"],
+        }
+    },
+    get: function(type, name) {
+        var types = this.datas[type];
+        for (var i in types) {
+            for (var j in types[i]) {
+                if (name.indexOf(types[i][j]) > 1) {
+                    return i;
+                }
+            }
+        }
+        return "";
+    } 
+};
 
