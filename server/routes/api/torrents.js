@@ -1,6 +1,8 @@
 var Settings = require(__base + 'models/settings');
 var Accounts = require(__base + 'routes/auth/accounts');
 
+var t411 = require(__base + 'routes/service/t411');
+var parser = require(__base + 'routes/service/torrent-data-parser');
 var request = require('request-promise');
 
 exports.search = function (req, res) {
@@ -57,6 +59,63 @@ function searchRequest(term, offset, limit, token) {
     });
 }
 
+exports.searchMovie = function (req, res) {
+    // If term in query
+    if (req.params.movie && req.params.movie != "") {
+        Accounts.authT411(req).then(function (token) {
+            var movie = req.params.movie;
+            return searchMovieRequest(movie, token);
+        }).then(function (results) {
+            var torrents = [];
+            torrents = parser.extract(results.torrents);
+            torrents = parser.sort(torrents);
+            results.torrents = torrents;
+            res.status(200).json({
+                success: true,
+                results: results
+            });
+        }).catch(function (error) {
+            res.status(200).json({
+                success: false,
+                message: error
+            });
+        });
+    }
+    else {
+        res.status(200).json({
+            success: false,
+            message: "Missing parameters."
+        })
+    } 
+};
+
+function searchMovieRequest(movie, token) {
+    return new Promise(function(resolve, reject) {
+        var query = {};
+        query["cid"] = t411.constants.type.movie;
+        query["limit"] = 100;
+        request({
+            method: 'GET',
+            uri: 'http://api.t411.in/torrents/search/' + movie,
+            qs: query,
+            headers: {
+                'Authorization': token
+            },
+            json: true
+        }).then(function (results) {
+            if (results.torrents) {
+                resolve(results);
+            }
+            else {
+                reject("T411 search error.");
+            }           
+        }).catch(function (err) {
+            reject("T411 search error :" + err);
+        })
+    });
+}
+
+
 exports.searchTv = function (req, res) {
     // If term in query
     if (req.params.tvshow && req.params.tvshow != "" && req.query.season && req.query.episode) {
@@ -67,9 +126,8 @@ exports.searchTv = function (req, res) {
             return searchTvRequest(tvshow, season, episode, token);
         }).then(function (results) {
             var torrents = [];
-            for (var i in results.torrents) {
-                torrents.push(extractData(results.torrents[i]));
-            }
+            torrents = parser.extract(results.torrents);
+            torrents = parser.sort(torrents);
             results.torrents = torrents;
             res.status(200).json({
                 success: true,
@@ -92,15 +150,15 @@ exports.searchTv = function (req, res) {
 
 function searchTvRequest(tvshow, season_number, episode_number, token) {
     return new Promise(function(resolve, reject) {
+        var query = {};
+        query["cid"] = t411.constants.type.tvshow;
+        query[t411.constants.term.season] = t411.getSeasonId(season_number);
+        query[t411.constants.term.episode] = t411.getEpisodeId(episode_number);
+        query["limit"] = 100;
         request({
             method: 'GET',
             uri: 'http://api.t411.in/torrents/search/' + tvshow,
-            qs: {
-                "cid": 433,                                     // TV Show type
-                "term[45][]": getSeasonId(season_number),       // Season
-                "term[46][]": getEpisodeId(episode_number),      // Episode
-                limit: 100
-            },
+            qs: query,
             headers: {
                 'Authorization': token
             },
@@ -117,76 +175,3 @@ function searchTvRequest(tvshow, season_number, episode_number, token) {
         })
     });
 }
-
-function getEpisodeId(number) {
-    number = parseInt(number);
-    if (0 < number && number < 9) {
-        return number + 936;
-    }
-    else if (8 < number && number < 31) {
-        return number + 937;
-    }
-    else if (30 < number && number < 61) {
-        return number + 1057;
-    }
-    else {
-        return undefined;
-    }
-}
-
-function getSeasonId(number) {
-    number = parseInt(number);
-    if (number == 0) {
-        return 1068;
-    }
-    if (0 < number && number < 31) {
-        return number + 967;
-    }
-    else {
-        return undefined;
-    }
-}
-
-
-function extractData(torrent) {
-    return {
-        id: torrent.id,
-        name: torrent.name,
-        size: torrent.size,
-        quality: DataParser.get("quality", torrent.rewritename),
-        language: DataParser.get("language", torrent.rewritename),
-        codec: DataParser.get("codec", torrent.rewritename),
-        seeders: torrent.seeders,
-        date: torrent.added
-    }
-}
-
-var DataParser = {
-    datas: {
-        codec: {
-            "x265": ["265"],
-            "x264": ["264"]
-        },
-        language: {
-            "multi": ["multi"],
-            "vf": ["vf", "french"],
-            "vostfr": ["vostfr"]            
-        },
-        quality: {
-            "1080p": ["1080"],
-            "720p": ["720"],
-        }
-    },
-    get: function(type, name) {
-        var types = this.datas[type];
-        for (var i in types) {
-            for (var j in types[i]) {
-                if (name.indexOf(types[i][j]) > 1) {
-                    return i;
-                }
-            }
-        }
-        return "";
-    } 
-};
-

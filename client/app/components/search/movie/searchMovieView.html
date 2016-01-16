@@ -47,7 +47,7 @@
 <!-- Downloads -->
 <div ng-show="subview.steps[1].state == 'active'">
     <div class="row">
-        <!-- TV Infos -->
+        <!-- Movie Infos -->
         <div class="col-sm-6">
             <div class="card">
                 <div class="fixed-ratio ratio20_9">
@@ -63,21 +63,30 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="row" ng-if="subview.selectedItemInfo">
-    <div class="col-sm-offset-3 col-sm-6">
-        <div class="card">
-            <div style="width: 100%; max-height: 250px; overflow: hidden;">
-                 <img style="width: 100%;" ng-src="https://image.tmdb.org/t/p/w1000{{subview.selectedItemInfo.backdrop_path}}">
-            </div>
-            <div class="card-header bgm-bluegray">
-                <h2>{{subview.selectedItemInfo.title}} ({{subview.selectedItemInfo.release_date | date:'yyyy'}})</h2>
-            </div>
-            <div class="card-body">
-                <div class="card-body card-padding" style="height: 100%; position: relative">
-                    <p>{{subview.selectedItemInfo.overview}}</p>
+        <!-- Torrents -->
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body card-padding">
+                    <div ng-if="subview.selected.movie.torrents.length > 0">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th>Date</th>
+                                        <th>Seeders</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="torrent in subview.selected.movie.torrents">
+                                        <td>{{torrent.name}}</td>
+                                        <td>{{torrent.date | date:'shortDate'}}</td>
+                                        <td>{{torrent.seeders}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

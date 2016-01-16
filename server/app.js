@@ -12,6 +12,7 @@ var db = require('./models/db');
 var config = require('config');
 var passport = require('passport');
 var middleware = require('./middleware');
+var errorhandler = require('errorhandler');
 
 var app = module.exports = express();
 
@@ -20,11 +21,16 @@ require('./routes/auth/passport')(passport); // pass passport for configuration
 app.use('/app', express.static(__dirname + '/../client/app'));                // set the static files location /public/img will be /img for users
 app.use('/assets', express.static(__dirname + '/../client/assets'));
 
+
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+
 app.use(morgan('dev'));                                         // log every request to the console
 app.use(bodyParser.urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
 app.use(bodyParser.json());                                     // parse application/json
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 app.use(methodOverride());
+app.use(errorhandler());
 
 var API = {};
 API.auth = require('./routes/api/auth');
@@ -48,6 +54,7 @@ app.get('/api/settings/synology/check', middleware.authenticateUser, API.setting
 // Torrents
 app.get('/api/torrents/:term', middleware.authenticateUser, API.torrents.search);
 app.get('/api/torrents/tv/:tvshow', middleware.authenticateUser, API.torrents.searchTv);
+app.get('/api/torrents/movie/:movie', middleware.authenticateUser, API.torrents.searchMovie);
 
 // Movie and TV
 app.get('/api/moviedb/search/movie', middleware.authenticateUser, API.movieDB.searchMovie);

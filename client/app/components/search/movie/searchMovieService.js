@@ -41,6 +41,28 @@ angular.module('app.services')
 		});
 	};
 
+	searchMovieService.getMovieTorrents = function(name, year) {
+		return new Promise(function(resolve, reject) {
+			var term = name;
+			if (year) {
+				term + " " + year
+			}
+			$http({
+				method: 'GET',
+				url: '/api/torrents/movie/' + term
+			}).then(function (response) {
+				if (response.data.success) {
+					resolve(response.data.results.torrents);
+				}
+				else {
+					reject();
+				}
+			}).catch(function (err) {
+				reject();
+			});
+		});
+	};
+
 
 	return searchMovieService;
 });
