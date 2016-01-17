@@ -162,3 +162,22 @@ html {
         overflow: hidden;
     }
 }
+
+.lv-torrent {
+    p {
+        margin: 0 0 0 0;
+    }
+}
+
+.truncate {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.truncate-span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

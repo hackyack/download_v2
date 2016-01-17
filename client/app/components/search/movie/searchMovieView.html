@@ -63,32 +63,65 @@
                 </div>
             </div>
         </div>
-        <!-- Torrents -->
+        <!-- Download Options -->
         <div class="col-sm-6">
             <div class="card">
-                <div class="card-body card-padding">
-                    <div ng-if="subview.selected.movie.torrents.length > 0">
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Nom</th>
-                                        <th>Date</th>
-                                        <th>Seeders</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="torrent in subview.selected.movie.torrents">
-                                        <td>{{torrent.name}}</td>
-                                        <td>{{torrent.date | date:'shortDate'}}</td>
-                                        <td>{{torrent.seeders}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                <ul class="tab-nav tn-justified">
+                    <li class="btn-wave" ng-class="{'active': subview.method == 'auto'}">
+                        <a href="" ng-click="subview.method = 'auto'">Automatique</a>
+                    </li>
+                    <li class="btn-wave" ng-class="{'active': subview.method == 'direct'}">
+                        <a href="" ng-click="subview.method = 'direct'">Lien Direct</a>
+                    </li>
+                    <li class="btn-wave" ng-class="{'active': subview.method == 'torrent'}">
+                        <a href="" ng-click="subview.method = 'torrent'">Fichier Torrent</a>
+                    </li>
+                </ul>
+                <!-- Automatique -->
+                <div ng-if="subview.method == 'auto'">
+                    <div class="listview lv-bordered lv-lg">
+                        <div class="lv-body lv-torrent">
+                            <div class="lv-item" ng-repeat="torrent in subview.selected.movie.torrents">
+                                <p class="truncate">{{torrent.name}}</p>
+                                <ul class="lv-attrs">
+                                    <li>{{torrent.size | bytes}}</li>
+                                    <li ng-if="torrent.language">{{torrent.language}}</li>
+                                    <li ng-if="torrent.quality">{{torrent.quality}}</li>
+                                    <li ng-if="torrent.codec">{{torrent.codec}}</li>
+                                    <li class="pull-right">{{torrent.seeders}} seeders</li>
+                                </ul>
+                            </div>
                         </div>
+                    </div>
+                </div>
+                <!-- Direct Download -->
+                <div class="card-body card-padding" ng-if="subview.method == 'direct'">
+                    <p class="f-500 c-black m-b-20">Coller votre lien direct.</p>
+                    <div class="form-group fg-line">
+                        <input type="text" class="form-control" placeholder="Lien direct">
+                    </div>
+                </div>
+                <!-- Torrent file -->
+                <div class="card-body card-padding" ng-if="subview.method == 'torrent'">
+                    <p class="f-500 c-black m-b-20">Insérer votre fichier torrent.</p>
+                    
+                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                        <span class="btn btn-primary btn-file m-r-10">
+                            <span class="fileinput-new">Fichier torrent</span>
+                            <span class="fileinput-exists">Changer</span>
+                            <input type="file" name="...">
+                        </span>
+                        <span class="fileinput-filename truncate-span" style="max-width: 120px;"></span>
+                        <a href="#" class="close fileinput-exists" data-dismiss="fileinput">&times;</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+$(".fileinput").on("change.bs.fileinput", function(e){
+    console.log(e);
+});
+</script>
