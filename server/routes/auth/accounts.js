@@ -107,3 +107,32 @@ exports.authSynology = function (req, protocol, host, port,username, password) {
         })
     });
 };
+
+exports.authRealDebrid = function(req, key) {
+    return new Promise(function(resolve, reject) {
+        key = key ? key : req.settings.account.realDebrid.key;
+
+        if (!(req.settings.account && req.settings.account.realDebrid && req.settings.account.realDebrid.key)) {
+            request({
+                method: 'GET',
+                uri: 'https://api.real-debrid.com/rest/1.0/user',
+                qs: {
+                  auth_token: key
+                },
+                json: true
+            }).then(function (response) {
+                if (!response.error) {
+                    resolve(key);
+                }
+                else {
+                    reject();
+                }           
+            }).catch(function (err) {
+                reject();
+            });
+        }
+        else {
+            resolve(req.settings.account.realDebrid.key);
+        }
+    });
+};

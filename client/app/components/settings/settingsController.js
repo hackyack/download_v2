@@ -34,7 +34,10 @@ angular.module('app.controllers')
 			port: "",
 			username: "",
 			password: ""
-		}		
+		},
+		realDebrid: {
+			key: ""
+		}	
 	};
 
 	settingsService.get().then(function(settings) {
@@ -110,6 +113,28 @@ angular.module('app.controllers')
 		}).catch(function (err) {
 			self.status.synology = "disconnected";
 			console.log("Synology account not linked...");
+		});
+	}
+
+	// Check MovieDB account
+	this.status.realDebrid = "loading";
+	settingsService.checkRealDebridAccount().then(function(response) {
+		self.status.realDebrid = "connected";
+		console.log("RealDebrid account linked !");
+	}).catch(function (err) {
+		self.status.realDebrid = "disconnected";
+		console.log("RealDebrid account not linked...");
+	});
+
+	// Link MovieDB account
+	this.linkRealDebridAccount = function () {
+		self.status.realDebrid = "loading";
+		settingsService.linkRealDebridAccount(self.account.realDebrid.key).then(function(response) {
+			self.status.realDebrid = "connected";
+			console.log("RealDebrid account linked !");
+		}).catch(function (err) {
+			self.status.realDebrid = "disconnected";
+			console.log("RealDebrid account not linked...");
 		});
 	}
 

@@ -105,7 +105,7 @@
 				<div class="col-sm-6">
 					<div class="form-group fg-line">
 						<label>API key</label>
-						<input ng-model="view.realDebrid.key" type="text" class="form-control">
+						<input ng-model="view.account.realDebrid.key" type="text" class="form-control">
 					</div>
 				</div>
 				<div class="col-sm-6">
@@ -117,7 +117,7 @@
 		            <i ng-if="view.status.realDebrid == 'connected'" class="zmdi zmdi-check-circle c-green" style="vertical-align: middle; font-size: 36px"></i>
 		            <i ng-if="view.status.realDebrid == 'disconnected'" class="zmdi zmdi-alert-circle c-red" style="vertical-align: middle; font-size: 36px"></i>
 		            <i ng-if="view.status.realDebrid == 'waiting'" class="zmdi zmdi-help c-lightblue" style="vertical-align: middle; font-size: 36px"></i>
-					<button ng-if="view.status.realDebrid == 'disconnected' || view.status.realDebrid == 'waiting'" class="btn btn-primary waves-effect">Lier le compte</button>
+					<button ng-if="view.status.realDebrid == 'disconnected' || view.status.realDebrid == 'waiting'" class="btn btn-primary waves-effect" ng-click="view.linkRealDebridAccount()">Lier le compte</button>
 				</div>
 			</div>
 			<br><br>

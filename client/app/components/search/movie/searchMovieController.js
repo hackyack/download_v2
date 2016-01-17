@@ -15,6 +15,15 @@ angular.module('app.controllers')
 		movie: undefined
 	};
 
+    self.download = {
+        auto: {},
+        direct: {
+            link: "",
+            data: undefined
+        },
+        torrent: {}
+    };
+    
 	self.goTo = function(number) {
 		steppersService.goTo(number);
 	}
@@ -54,6 +63,25 @@ angular.module('app.controllers')
     		self.selected.movie.info = info;
     		steppersService.next();
     	});
+    }
+
+    self.checkLink = function() {
+        $http({
+            method: 'GET',
+            url: '/api/realdebrid/check/',
+            params: {
+                link: self.download.direct.link
+            }
+        }).then(function (response) {
+            if (response.data.success) {
+                self.download.direct.data = response.data.link;
+            }
+            else {
+                self.download.direct.data = undefined;
+            }
+        }).catch(function (err) {
+            self.download.direct.data = undefined;
+        });
     }
 
  }]);

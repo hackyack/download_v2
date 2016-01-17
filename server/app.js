@@ -37,6 +37,8 @@ API.auth = require('./routes/api/auth');
 API.settings = require('./routes/api/settings');
 API.torrents = require('./routes/api/torrents');
 API.movieDB = require('./routes/api/moviedb');
+API.realdebrid = require('./routes/api/realdebrid');
+API.download = require('./routes/api/download');
 
 // Routes
 // Authentication
@@ -47,14 +49,24 @@ app.post('/api/auth/login', API.auth.localLogin);
 app.get('/api/settings', middleware.authenticateUser, API.settings.get);
 app.post('/api/settings/t411/link', middleware.authenticateUser, API.settings.linkT411);
 app.get('/api/settings/t411/check', middleware.authenticateUser, API.settings.checkT411);
-app.post('/api/settings/movieDB/link', middleware.authenticateUser, API.settings.linkMovieDB);
-app.get('/api/settings/movieDB/check', middleware.authenticateUser, API.settings.checkMovieDB);
+app.post('/api/settings/moviedb/link', middleware.authenticateUser, API.settings.linkMovieDB);
+app.get('/api/settings/moviedb/check', middleware.authenticateUser, API.settings.checkMovieDB);
 app.post('/api/settings/synology/link', middleware.authenticateUser, API.settings.linkSynology);
 app.get('/api/settings/synology/check', middleware.authenticateUser, API.settings.checkSynology);
+app.post('/api/settings/realdebrid/link', middleware.authenticateUser, API.settings.linkRealDebrid);
+app.get('/api/settings/realdebrid/check', middleware.authenticateUser, API.settings.checkRealDebrid);
+
 // Torrents
 app.get('/api/torrents/:term', middleware.authenticateUser, API.torrents.search);
 app.get('/api/torrents/tv/:tvshow', middleware.authenticateUser, API.torrents.searchTv);
 app.get('/api/torrents/movie/:movie', middleware.authenticateUser, API.torrents.searchMovie);
+
+// Debrid
+app.get('/api/realdebrid/check', middleware.authenticateUser, API.realdebrid.checkLink);
+
+// Download
+app.put('/api/download/addtorrent', middleware.authenticateUser, API.download.addTorrent);
+app.get('/api/download/process', middleware.authenticateUser, API.download.process);
 
 // Movie and TV
 app.get('/api/moviedb/search/movie', middleware.authenticateUser, API.movieDB.searchMovie);

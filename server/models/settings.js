@@ -23,9 +23,7 @@ var settingsSchema = Schema({
 			expires_at: Date
 		},
 		realDebrid: {
-			key: String,
-			token: String,
-			expires_at: Date
+			key: String
 		}, 
 		t411: {
 			username: String,

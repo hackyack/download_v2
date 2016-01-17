@@ -26,6 +26,11 @@ exports.get = function (req, res) {
                  key: req.settings.account.movieDB.key
             }
         }
+        if (req.settings.account.realDebrid) {
+            settings.account.realDebrid = {
+                 key: req.settings.account.realDebrid.key
+            }
+        }
     }
     res.status(200).json({
         settings: settings
@@ -228,4 +233,66 @@ exports.checkSynology = function (req, res) {
         });
     }
    
+};
+
+exports.linkRealDebrid = function (req, res) {
+
+    if (req.body) {
+        var key = req.body.key
+    }
+
+    if (key) {
+
+        Accounts.authRealDebrid(req, key).then(function (response) {
+            req.settings.account.realDebrid.key = key;
+
+            req.settings.save(function(err) {
+                if (!err) {
+                    res.status(200).json({
+                        success: true
+                    });
+                }
+                else {
+                    res.status(200).json({
+                        success: false,
+                        err: "Internal Error"
+                    });
+                }
+            });
+        })
+        .catch(function (err) {
+            console.log(err);
+            res.status(200).json({
+                success: false,
+                err: "Error during RealDebrid authentication"
+            });
+        });
+    }
+    else {
+        res.status(200).json({
+            success: false,
+            err: "Missing Params"
+        });
+    }
+};
+
+exports.checkRealDebrid= function (req, res) {
+
+    if (req.settings.account && req.settings.account.realDebrid && req.settings.account.realDebrid.key) {
+
+        Accounts.authRealDebrid(req).then(function (response) {
+            res.status(200).json({
+                success: true
+            });
+        }).catch(function (err) {
+            res.status(200).json({
+                success: false
+            });
+        });
+    }
+    else {
+        res.status(200).json({
+            success: false
+        });
+    }
 };

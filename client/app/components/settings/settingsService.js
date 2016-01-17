@@ -152,5 +152,47 @@ angular.module('app.services')
 		});
 	}
 
+	settingsService.linkRealDebridAccount = function(key) {
+		return new Promise(function(resolve, reject) {
+			$http({
+				method: 'POST',
+				url: '/api/settings/realdebrid/link',
+				headers: {'Content-Type': 'application/json'},	
+				data: {
+					key: key
+				}
+			}).then(function(response) {
+				if (response.data && response.data.success) {
+					resolve(response);
+				}
+				else {
+					reject();
+				}
+				
+			}).catch(function(err) {
+				reject();
+			});
+		});
+	}
+
+	settingsService.checkRealDebridAccount = function() {
+		return new Promise(function(resolve, reject) {
+			$http({
+				method: 'GET',
+				url: '/api/settings/realdebrid/check',
+			}).then(function(response) {
+				if (response.data && response.data.success) {
+					resolve();
+				}
+				else {
+					reject();
+				}
+				
+			}).catch(function(err) {
+				reject();
+			});
+		});
+	}
+
 	return settingsService;
 });

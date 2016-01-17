@@ -71,10 +71,10 @@
                         <a href="" ng-click="subview.method = 'auto'">Automatique</a>
                     </li>
                     <li class="btn-wave" ng-class="{'active': subview.method == 'direct'}">
-                        <a href="" ng-click="subview.method = 'direct'">Lien Direct</a>
+                        <a href="" ng-click="subview.method = 'direct'">Direct</a>
                     </li>
                     <li class="btn-wave" ng-class="{'active': subview.method == 'torrent'}">
-                        <a href="" ng-click="subview.method = 'torrent'">Fichier Torrent</a>
+                        <a href="" ng-click="subview.method = 'torrent'">Torrent</a>
                     </li>
                 </ul>
                 <!-- Automatique -->
@@ -98,8 +98,9 @@
                 <div class="card-body card-padding" ng-if="subview.method == 'direct'">
                     <p class="f-500 c-black m-b-20">Coller votre lien direct.</p>
                     <div class="form-group fg-line">
-                        <input type="text" class="form-control" placeholder="Lien direct">
+                        <input type="text" class="form-control" placeholder="Lien direct" ng-model="subview.download.direct.link" ng-change="subview.checkLink()">
                     </div>
+                    <p ng-if="subview.download.direct.data">{{subview.download.direct.data.filename}} - {{subview.download.direct.data.filesize | bytes}}</p>
                 </div>
                 <!-- Torrent file -->
                 <div class="card-body card-padding" ng-if="subview.method == 'torrent'">
@@ -119,9 +120,3 @@
         </div>
     </div>
 </div>
-
-<script>
-$(".fileinput").on("change.bs.fileinput", function(e){
-    console.log(e);
-});
-</script>
