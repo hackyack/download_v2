@@ -24,6 +24,8 @@ angular.module('app.controllers')
         torrent: {}
     };
     
+    self.method = '';
+
 	self.goTo = function(number) {
 		steppersService.goTo(number);
 	}
@@ -50,17 +52,7 @@ angular.module('app.controllers')
     	}).then(function (torrents) {
     		self.selected.movie.torrents = torrents;
     		console.log(torrents);
-    		steppersService.next();
-    	});
-    }
-
-    self.getTorrents = function(id) {
-    	self.selected.movie = {
-    		id: id,
-    		info: undefined,
-    	}
-    	searchMovieService.getMovieInfo(id).then(function (info) {
-    		self.selected.movie.info = info;
+            self.method = 'auto';
     		steppersService.next();
     	});
     }
