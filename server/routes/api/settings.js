@@ -12,7 +12,7 @@ exports.get = function (req, res) {
             settings.account.synology = {
                 protocol: req.settings.account.synology.protocol,
                 host: req.settings.account.synology.host,
-                port: req.settings.account.synology.username,
+                port: req.settings.account.synology.port,
                 username: req.settings.account.synology.username
             }
         }

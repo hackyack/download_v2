@@ -19,7 +19,7 @@
 							<div class="form-group fg-line">
 								<label>Protocole</label>
 								<div class="select">
-									<select ng-model="view.account.synology.protocol" class="form-control">
+									<select ng-model="view.account.synology.protocol" class="form-control" ng-change="view.status.synology = 'waiting'">
 										<option value="http">http</option>
 										<option value="https">https</option>
 									</select>
@@ -29,13 +29,13 @@
 						<div class="col-sm-6">
 							<div class="form-group fg-line">
 								<label>Hôte</label>
-								<input ng-model="view.account.synology.host" type="text" class="form-control" placeholder="ex: username.synology.me">
+								<input ng-model="view.account.synology.host" type="text" class="form-control" placeholder="ex: username.synology.me" ng-change="view.status.synology = 'waiting'">
 							</div>
 						</div>
 						<div class="col-sm-3">
 							<div class="form-group fg-line">
 								<label>Port</label>
-								<input ng-model="view.account.synology.port" type="text" class="form-control" placeholder="ex: 3000">
+								<input ng-model="view.account.synology.port" type="text" class="form-control" placeholder="ex: 3000" ng-change="view.status.synology = 'waiting'">
 							</div>
 						</div>
 					</div>
@@ -43,13 +43,13 @@
 						<div class="col-sm-6">
 							<div class="form-group fg-line">
 								<label>Nom d'utilisateur</label>
-								<input ng-model="view.account.synology.username" type="text" class="form-control">
+								<input ng-model="view.account.synology.username" type="text" class="form-control" ng-change="view.status.synology = 'waiting'">
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group fg-line">
 								<label>Mot de passe</label>
-								<input ng-model="view.account.synology.password" type="password" class="form-control">
+								<input ng-model="view.account.synology.password" type="password" class="form-control" ng-change="view.status.synology = 'waiting'">
 							</div>
 						</div>
 					</div>
@@ -78,7 +78,7 @@
 				<div class="col-sm-6">
 					<div class="form-group fg-line">
 						<label>API key</label>
-						<input ng-model="view.account.movieDB.key" type="text" class="form-control">
+						<input ng-model="view.account.movieDB.key" type="text" class="form-control" ng-change="view.status.movieDB = 'waiting'">
 					</div>
 				</div>
 				<div class="col-sm-6">
@@ -105,7 +105,7 @@
 				<div class="col-sm-6">
 					<div class="form-group fg-line">
 						<label>API key</label>
-						<input ng-model="view.account.realDebrid.key" type="text" class="form-control">
+						<input ng-model="view.account.realDebrid.key" type="text" class="form-control" ng-change="view.status.realDebrid = 'waiting'">
 					</div>
 				</div>
 				<div class="col-sm-6">
@@ -132,13 +132,13 @@
 						<div class="col-sm-6">
 							<div class="form-group fg-line">
 								<label>Nom d'utilisateur</label>
-								<input ng-model="view.account.t411.username" type="text" class="form-control">
+								<input ng-model="view.account.t411.username" type="text" class="form-control" ng-change="view.status.t411 = 'waiting'">
 							</div>
 						</div>
 						<div class="col-sm-6">
 							<div class="form-group fg-line">
 								<label>Mot de passe</label>
-								<input ng-model="view.account.t411.password" type="password" class="form-control">
+								<input ng-model="view.account.t411.password" type="password" class="form-control" ng-change="view.status.t411 = 'waiting'">
 							</div>
 						</div>
 					</div>

@@ -16,7 +16,7 @@ angular.module('app.services')
 			}).then(function(response) {
 				if (response.data && response.data.token) {
 					localStorage.setItem("token", response.data.token);
-					resolve(response);
+					resolve();
 				}
 				else {
 					reject('Internal error, please try again later...');
@@ -42,7 +42,7 @@ angular.module('app.services')
 			}).then(function(response) {
 				if (response.data && response.data.token) {
 					localStorage.setItem("token", response.data.token);
-					resolve(response);
+					resolve();
 				}
 				else {
 					reject('Internal error, please try again later...');

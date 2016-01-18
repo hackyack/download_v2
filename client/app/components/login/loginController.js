@@ -9,8 +9,7 @@ angular.module('app.controllers')
 	angular.element('body').removeClass('sw-toggled');
 
 	this.doEmailLogin = function() {
-		loginService.login(self.email, self.password).then(function (response) {
-			console.log(response);
+		loginService.login(self.email, self.password).then(function () {
 			$state.go('main.home');
         }).catch(function (error) {
             console.log(error);
@@ -18,7 +17,7 @@ angular.module('app.controllers')
 	};
 
 	this.doEmailSignUp = function() {
-		loginService.signUp(self.email, self.password).then(function (response) {
+		loginService.signUp(self.email, self.password).then(function () {
 			console.log(response);
 			$state.go('main.home');
         }).catch(function (error) {

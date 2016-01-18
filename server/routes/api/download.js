@@ -7,22 +7,23 @@ exports.addTorrent = function (req, res) {
 };
 
 exports.process = function (req, res) {
-	fs.readFile(__base + "files/example.torrent", "utf-8", function (err, data) {
+	fs.readFile(__base + "files/example.torrent", function (err, data) {
         if (err) {
             throw err;
         }
 
         Accounts.authRealDebrid(req).then(function (token) {
-            return request({
+            var r = request({
                 method: 'PUT',
                 uri: 'https://api.real-debrid.com/rest/1.0/torrents/addTorrent',
                 headers: {
-                    "Authorization": "Bearer " + token
+                    "Authorization": "Bearer " + token,
+                    "Content-Type": "application/octet-stream"
                 },
-                body: data,
-                json: true,
-                encoding: null
+                json: true
             });
+            r.body = data;
+            return r;
         }).then(function (response) {
             console.log("success", response);
 
