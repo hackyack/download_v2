@@ -1,10 +1,7 @@
 var Accounts = require(__base + 'routes/auth/accounts');
 
 var request = require('request-promise');
-var fs = require("fs");
 
-exports.addTorrent = function (req, res) {
-};
 
 exports.process = function (req, res) {
 	fs.readFile(__base + "files/example.torrent", function (err, data) {

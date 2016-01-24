@@ -13,6 +13,7 @@ var config = require('config');
 var passport = require('passport');
 var middleware = require('./middleware');
 var errorhandler = require('errorhandler');
+var multiparty = require('connect-multiparty');
 
 var app = module.exports = express();
 
@@ -31,6 +32,7 @@ app.use(bodyParser.json());                                     // parse applica
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 app.use(methodOverride());
 app.use(errorhandler());
+app.use(multiparty());
 
 var API = {};
 API.auth = require('./routes/api/auth');
@@ -39,6 +41,7 @@ API.torrents = require('./routes/api/torrents');
 API.movieDB = require('./routes/api/moviedb');
 API.realdebrid = require('./routes/api/realdebrid');
 API.download = require('./routes/api/download');
+API.tasks = require('./routes/api/tasks');
 
 // Routes
 // Authentication
@@ -65,8 +68,13 @@ app.get('/api/torrents/movie/:movie', middleware.authenticateUser, API.torrents.
 app.get('/api/realdebrid/check', middleware.authenticateUser, API.realdebrid.checkLink);
 
 // Download
-app.put('/api/download/addtorrent', middleware.authenticateUser, API.download.addTorrent);
-app.get('/api/download/process', middleware.authenticateUser, API.download.process);
+//app.get('/api/download/process', middleware.authenticateUser, API.download.process);
+
+// Tasks
+app.post('/api/tasks/torrent', middleware.authenticateUser, API.tasks.torrent);
+app.post('/api/tasks/magnet', middleware.authenticateUser, API.tasks.magnet);
+app.post('/api/tasks/t411', middleware.authenticateUser, API.tasks.t411);
+app.post('/api/tasks/link', middleware.authenticateUser, API.tasks.link);
 
 // Movie and TV
 app.get('/api/moviedb/search/movie', middleware.authenticateUser, API.movieDB.searchMovie);

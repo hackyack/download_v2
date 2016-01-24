@@ -64,6 +64,7 @@ exports.getMovieInfo = function (req, res) {
             json: true
         });
     }).then(function (info) {
+        info.year =  info.release_date ? info.release_date.split("-")[0] : undefined;
         res.status(200).json({
             success: true,
             info: info

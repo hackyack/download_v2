@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <div class="card-header bgm-bluegray">
-                    <h2>{{subview.selected.movie.info.original_title}}</h2>
+                    <h2>{{subview.selected.movie.info.original_title}}<span ng-if="subview.selected.movie.info.year"> ({{subview.selected.movie.info.year}})</span></h2>
                 </div>
                 <div class="card-body card-padding">
                     <p>{{subview.selected.movie.info.overview}}</p>
@@ -110,10 +110,11 @@
                         <span class="btn btn-primary btn-file m-r-10">
                             <span class="fileinput-new">Fichier torrent</span>
                             <span class="fileinput-exists">Changer</span>
-                            <input type="file" name="...">
+                            <input type="file" file-model="subview.torrent" name="...">
                         </span>
                         <span class="fileinput-filename truncate-span" style="max-width: 120px;"></span>
                         <a href="#" class="close fileinput-exists" data-dismiss="fileinput">&times;</a>
+                        <button class="btn btn-prymary waves-effect" ng-click="subview.startTask()">Upload</button>
                     </div>
                 </div>
             </div>

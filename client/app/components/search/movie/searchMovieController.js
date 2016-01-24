@@ -76,5 +76,17 @@ angular.module('app.controllers')
         });
     }
 
+    self.startTask = function() {
+        var infos = {
+            type: "movie",
+            title: self.selected.movie.info.original_title,
+            year: self.selected.movie.info.year,
+            torrent: self.torrent
+        }
+        searchMovieService.startTorrentTask(infos).then(function() {
+            console.log('success');
+        });
+    }
+
  }]);
 

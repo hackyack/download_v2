@@ -63,6 +63,34 @@ angular.module('app.services')
 		});
 	};
 
+	searchMovieService.startTorrentTask = function(infos) {
+		return new Promise(function(resolve, reject) {
+			var fd = new FormData();
+    		for (var key in infos) {
+    			if (infos[key]) {
+    				fd.append(key, infos[key]);
+    			}
+    		}
+			$http({
+				method: 'POST',
+				url: '/api/tasks/torrent',
+				data: fd,
+				transformRequest: angular.identity,
+                headers: {
+                    'Content-Type': undefined
+                }
+			}).then(function (response) {
+				if (response.data.success) {
+					resolve();
+				}
+				else {
+					reject();
+				}
+			}).catch(function (err) {
+				reject();
+			});
+		});
+	};
 
 	return searchMovieService;
 });
