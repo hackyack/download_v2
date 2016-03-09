@@ -37,7 +37,7 @@ function searchRequest(term, offset, limit, token) {
     return new Promise(function(resolve, reject) {
         request({
             method: 'GET',
-            uri: 'http://api.t411.in/torrents/search/' + term,
+            uri: 'http://api.t411.ch/torrents/search/' + term,
             qs: {
                 offset: offset,
                 limit: limit
@@ -96,7 +96,7 @@ function searchMovieRequest(movie, token) {
         query["limit"] = 100;
         request({
             method: 'GET',
-            uri: 'http://api.t411.in/torrents/search/' + movie,
+            uri: 'http://api.t411.ch/torrents/search/' + movie,
             qs: query,
             headers: {
                 'Authorization': token
@@ -157,7 +157,7 @@ function searchTvRequest(tvshow, season_number, episode_number, token) {
         query["limit"] = 100;
         request({
             method: 'GET',
-            uri: 'http://api.t411.in/torrents/search/' + tvshow,
+            uri: 'http://api.t411.ch/torrents/search/' + tvshow,
             qs: query,
             headers: {
                 'Authorization': token

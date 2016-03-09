@@ -9,7 +9,7 @@ exports.authT411 = function (req, username, password) {
         if (!(req.settings.account && req.settings.account.t411 && req.settings.account.t411.token && req.settings.account.t411.expires_at) || Date.now() > req.settings.account.t411.expires_at || username) {
             request({
                 method: 'POST',
-                uri: 'http://api.t411.in/auth',
+                uri: 'http://api.t411.ch/auth',
                 form: {
                     username: username,
                     password: password
