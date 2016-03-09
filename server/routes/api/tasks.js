@@ -9,6 +9,7 @@ exports.torrent = function (req, res) {
 
     // Torrent
     var torrent = req.files.torrent;
+    console.log(torrent);
     var destPath = __base + "/files/" + torrent.name;
     task.input.torrent_filename = torrent.name;
 

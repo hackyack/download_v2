@@ -22,8 +22,8 @@ angular.module('app').config(function ($httpProvider, $stateProvider, $urlRouter
     
     .state ('login', {
         url: '/login',
-        templateUrl: 'app/components/login/loginView.html',
-        controller: 'loginController as login'
+        templateUrl: 'app/components/login/login.html',
+        controller: 'LoginController as login'
     })
 
     .state ('main', {
@@ -40,26 +40,26 @@ angular.module('app').config(function ($httpProvider, $stateProvider, $urlRouter
                 controller: 'mainController as main'
             },
             'header@main': {
-                templateUrl: 'app/shared/header/headerView.html',
-                controller: 'headerController as header',
+                templateUrl: 'app/shared/header/header.html',
+                controller: 'HeaderController as header',
             },
             'sidebar@main': {
-                templateUrl: 'app/shared/sidebar/sidebarView.html',
-                controller: 'sidebarController as sidebar',
+                templateUrl: 'app/shared/sidebar/sidebar.html',
+                controller: 'SidebarController as sidebar',
             }
         }
     })
 
     .state ('main.home', {
         url: '/home',
-        templateUrl: 'app/components/home/homeView.html',
-        controller: 'homeController as view'
+        templateUrl: 'app/components/home/home.html',
+        controller: 'HomeController as view'
     })
 
     .state ('main.contact', {
         url: '/contact',
-        templateUrl: 'app/components/contact/contactView.html',
-        controller: 'contactController as view'
+        templateUrl: 'app/components/contact/contact.html',
+        controller: 'ContactController as view'
     })
 
     .state ('main.search', {
@@ -74,8 +74,8 @@ angular.module('app').config(function ($httpProvider, $stateProvider, $urlRouter
 
     .state ('main.search.movie', {
         url: '/search/movie',
-        templateUrl: 'app/components/search/movie/searchMovieView.html',
-        controller: 'searchMovieController as subview'
+        templateUrl: 'app/components/search/movie/search-movie.html',
+        controller: 'SearchMovieController as subview'
     })
 
     .state ('main.search.tv', {
@@ -92,8 +92,8 @@ angular.module('app').config(function ($httpProvider, $stateProvider, $urlRouter
 
     .state ('main.settings', {
         url: '/settings',
-        templateUrl: 'app/components/settings/settingsView.html',
-        controller: 'settingsController as view'
+        templateUrl: 'app/components/settings/settings.html',
+        controller: 'SettingsController as view'
     })
 })
 .run(function($rootScope) {
